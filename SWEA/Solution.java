@@ -1,120 +1,189 @@
 package SWEA;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
  
-class Solution
-{
-    static int K;
-    static HashMap<String, Integer> player = new HashMap<>(); // name, idx
-    static ArrayList<Integer>[] synergy = new ArrayList[200];
-    static int[] visit;
-    static boolean isAble;
-     
-    private static void bfs(int idx) {
-        Queue<Integer> q = new LinkedList<>();
-        q.add(idx);
-        if (visit[idx] == -1) {
-            visit[idx] = 1;
-        } else
-            return;
-         
-        while (!q.isEmpty()) {
-            int curIdx = q.poll();
-            for (int i : synergy[curIdx]) {
-                if (visit[i] != -1 && visit[i] == visit[curIdx]) {
-                    isAble = false;
-                    return;
-                }
-                 
-                if (visit[i] == -1) {
-                    visit[i] = visit[curIdx] == 1 ? 0 : 1;
-                    q.add(i);
-                }
-            }
-        }
-    }
- 
- 
-     
-    private static void init() {
-        player.clear();
-        for (int i = 0; i < synergy.length; i++)
-            synergy[i].clear();
-        isAble = true;
-    }
-     
-    public static void main(String args[]) throws Exception
-    {
+public class Solution {
+    static int n,m,r,c,l;
+    static int[][] arr;
+    static StringBuilder sb;
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int T = Integer.parseInt(br.readLine());
-        for (int i = 0; i < synergy.length; i++) {
-            synergy[i] = new ArrayList<>();
+        sb = new StringBuilder();
+        int tc = Integer.parseInt(br.readLine());
+        for(int i=1;i<=tc;i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            n = Integer.parseInt(st.nextToken()); // 세로크기
+            m = Integer.parseInt(st.nextToken()); // 가로크기
+            r = Integer.parseInt(st.nextToken()); // 맨홀 뚜껑 x
+            c = Integer.parseInt(st.nextToken()); // 맨홀 뚜껑 y
+            l = Integer.parseInt(st.nextToken()); // 시간
+            arr = new int[n][m];
+            for(int j=0;j<n;j++) {
+                st = new StringTokenizer(br.readLine());
+                for(int k=0;k<m;k++)
+                    arr[j][k] = Integer.parseInt(st.nextToken());
+            }
+            result = 0;
+            visited = new boolean[n][m];
+            solve();
+            print();
+            sb.append("#"+i+" "+result+"\n");
         }
-        for(int test_case = 1; test_case <= T; test_case++)
-        {
-            init();
-             
-            K = Integer.parseInt(br.readLine());
-             
-            int idx = 0;
-             
-            for (int i = 0; i < K; i++) {
-                StringTokenizer st = new StringTokenizer(br.readLine());
-                String p1 = st.nextToken();
-                String p2 = st.nextToken();
-                 
-                int idx1, idx2;
-                if (player.containsKey(p1)) {
-                    idx1 = player.get(p1);
-                } else {
-                    idx1 = idx;
-                    player.put(p1, idx++);
-                }
-                 
-                if (player.containsKey(p2)) {
-                    idx2 = player.get(p2);
-                } else {
-                    idx2 = idx;
-                    player.put(p2, idx++);
-                }
-                 
-                synergy[idx1].add(idx2);
-                synergy[idx2].add(idx1);
-            }
-             
-//          System.out.println(player);
-//          for (int i = 0; i < player.size(); i++)
-//              System.out.println(synergy[i]);
-            visit = new int[200];
-            Arrays.fill(visit, -1);
-             
-            for (int i = 0; i < idx; i++) {
-                bfs(i);
-                 
-                if (!isAble) {
-                    break;                  
-                }
-            }
-             
-             
-             
-            if (isAble) {
-                System.out.println("#"+test_case+" Yes");
-            } else {
-                System.out.println("#"+test_case+" No");
-            }
-        }
-         
-         
+        System.out.print(sb);
     }
  
-         
  
-     
+ 
+ 
+ 
+ 
+ 
+    static int result;
+    static boolean[][] visited;
+    // 아래,  오른쪽,  위,  좌
+    static int[][] dir = {{1,0},{0,1},{-1,0},{0,-1}};
+    private static void solve() {
+        Queue<Pair> queue = new LinkedList<>();
+        queue.add(new Pair(r,c,1));
+        visited[r][c] = true;
+        while(!queue.isEmpty()) {
+            Pair t = queue.poll();
+            if(t.cnt>l) break;
+            result++;
+            switch(arr[t.x][t.y]) {
+            case 1:    // 1 - +
+                for(int i=0;i<4;i++) {
+                    int tx = t.x+dir[i][0];
+                    int ty = t.y+dir[i][1];
+                    if(tx<0 || ty<0 || tx>=n || ty>=m) continue;
+                    if(visited[tx][ty] || arr[tx][ty]==0) continue;
+                    if(check(tx,ty,i)) {
+                        queue.add(new Pair(tx,ty,t.cnt+1));
+                        visited[tx][ty] = true;
+                    }
+                }
+                break;
+            case 2:    // 2 - ㅣ
+                for(int i=0;i<4;i+=2) {
+                    int tx = t.x+dir[i][0];
+                    int ty = t.y+dir[i][1];
+                    if(tx<0 || ty<0 || tx>=n || ty>=m) continue;
+                    if(visited[tx][ty] || arr[tx][ty]==0) continue;
+                    if(check(tx,ty,i)) {
+                        queue.add(new Pair(tx,ty,t.cnt+1));
+                        visited[tx][ty] = true;
+                    }
+                }
+                break;
+            case 3:    // 3 - ㅡ
+                for(int i=1;i<4;i+=2) {
+                    int tx = t.x+dir[i][0];
+                    int ty = t.y+dir[i][1];
+                    if(tx<0 || ty<0 || tx>=n || ty>=m) continue;
+                    if(visited[tx][ty] || arr[tx][ty]==0) continue;
+                    if(check(tx,ty,i)) {
+                        queue.add(new Pair(tx,ty,t.cnt+1));
+                        visited[tx][ty] = true;
+                    }
+                }
+                break;
+            case 4:    // 4 - ㄴ
+                for(int i=1;i<3;i++) {
+                    int tx = t.x+dir[i][0];
+                    int ty = t.y+dir[i][1];
+                    if(tx<0 || ty<0 || tx>=n || ty>=m) continue;
+                    if(visited[tx][ty] || arr[tx][ty]==0) continue;
+                    if(check(tx,ty,i)) {
+                        queue.add(new Pair(tx,ty,t.cnt+1));
+                        visited[tx][ty] = true;
+                    }
+                }
+                break;
+            case 5:    // 5 - ┌
+                for(int i=0;i<2;i++) {
+                    int tx = t.x+dir[i][0];
+                    int ty = t.y+dir[i][1];
+                    if(tx<0 || ty<0 || tx>=n || ty>=m) continue;
+                    if(visited[tx][ty] || arr[tx][ty]==0) continue;
+                    if(check(tx,ty,i)) {
+                        queue.add(new Pair(tx,ty,t.cnt+1));
+                        visited[tx][ty] = true;
+                    }
+                }
+                break;
+            case 6:    // 6 - ㄱ
+                for(int i=0;i<4;i+=3) {
+                    int tx = t.x+dir[i][0];
+                    int ty = t.y+dir[i][1];
+                    if(tx<0 || ty<0 || tx>=n || ty>=m) continue;
+                    if(visited[tx][ty] || arr[tx][ty]==0) continue;
+                    if(check(tx,ty,i)) {
+                        queue.add(new Pair(tx,ty,t.cnt+1));
+                        visited[tx][ty] = true;
+                    }
+                }
+                break;
+            case 7:    // 7 - ┘
+                for(int i=2;i<4;i++) {
+                    int tx = t.x+dir[i][0];
+                    int ty = t.y+dir[i][1];
+                    if(tx<0 || ty<0 || tx>=n || ty>=m) continue;
+                    if(visited[tx][ty] || arr[tx][ty]==0) continue;
+                    if(check(tx,ty,i)) {
+                        queue.add(new Pair(tx,ty,t.cnt+1));
+                        visited[tx][ty] = true;
+                    }
+                }
+                break;
+            }
+        }
+    }
+    public static void print() {
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				if (visited[i][j])
+					System.out.print("T" + " ");
+				else
+					System.out.print("F" + " ");
+			}
+			System.out.println();
+		}
+		System.out.println();
+
+	}
+    
+    // 둘이 연결이 되었있는지도 확인해야함!!
+    private static boolean check(int x,int y,int i) {
+        int t = arr[x][y];
+        // 다시 돌아갈 수 있느냐.
+        switch(i) {
+        case 0: // 아래로 온것 -> 다시 위로 돌아갈 수 있어야함.
+            if(t==3||t==5||t==6) return false;
+            break;
+        case 1: // 오른쪽으로 온것 -> 다시 왼쪽으로 
+            if(t==2||t==4||t==5) return false;
+            break;
+        case 2: // 위로 온것 -> 다시 아래로
+            if(t==3||t==4||t==7) return false;
+            break;
+        case 3: // 왼쪽으로 온것 -> 다시 오른쪽으로
+            if(t==2||t==6||t==7) return false;
+            break;
+        }
+        
+        return true;
+    }
+    
+    static class Pair{
+        private int x,y,cnt;
+        public Pair(int x,int y,int cnt) {
+            this.x = x;
+            this.y = y;
+            this.cnt = cnt;
+        }
+    }
 }
