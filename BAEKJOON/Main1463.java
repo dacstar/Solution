@@ -3,6 +3,7 @@ package BAEKJOON;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class Main1463 {
 	static int Dp[], N;
@@ -12,28 +13,29 @@ public class Main1463 {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		N = Integer.parseInt(br.readLine());
 		Dp = new int[N + 1];
-		DFS(N,0);
-		System.out.println(Dp[N]);
+		Arrays.fill(Dp, -1);
+		Dp[0]=Dp[1]=0;
+		System.out.println(DFS(N));
 	}
 
-	public static void DFS(int depth, int cnt) {
-		if(depth ==0)
-			return ;
-		if (Dp[depth] != 0) {
-			if(Dp[depth]>cnt) {
-				Dp[depth]=cnt;
-			}
-			 return ;
-		}
-		if (depth == 1) {
-			Dp[depth]=cnt;
-			return ;
-		} else {
-				DFS(depth / 3, cnt + 1);
-				DFS(depth / 2, cnt + 1);
-				DFS(depth - 1, cnt + 1);
-		}
+	public static int DFS(int depth) {
 
+		if (Dp[depth] != -1) {
+
+			 return Dp[depth];
+		}
+		int min=Integer.MAX_VALUE;
+			if(depth % 2 == 0)
+				min=Math.min(min, DFS(depth/2));
+			if(depth % 3 == 0)
+				min=Math.min(min, DFS(depth/3));
+			
+			min=Math.min(min, DFS(depth-1));
+			
+			
+			
+
+		return Dp[depth]=min+1;
 	}
 
 }
