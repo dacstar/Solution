@@ -3,7 +3,7 @@ package Programmers;
 import java.util.Arrays;
 import java.util.HashSet;
 
-public class Programmers_ºÒ·®»ç¿ëÀÚ {
+public class Programmers_ë¶ˆëŸ‰ì‚¬ìš©ì{
 	static boolean visit[];
 	static int N;
 	static int res;

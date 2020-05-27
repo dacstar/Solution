@@ -3,7 +3,7 @@ package Programmers;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class Programmers_Æ©ÇÃ {
+public class Programmers_íŠœí”Œ {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

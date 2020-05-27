@@ -1,6 +1,6 @@
 package Programmers;
 
-public class Solution_ÁÖ½Ä°¡°İ {
+public class Solution_ì£¼ì‹ê°€ê²© {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

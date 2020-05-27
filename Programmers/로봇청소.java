@@ -1,6 +1,6 @@
 package Programmers;
 
-public class ·Îº¿Ã»¼Ò {
+public class ë¡œë´‡ì²­ì†Œ {
 	static int office[][] = { { 5, -1, 4 }, { 6, 3, -1 }, { 2, -1, 1 } };
 	static int dy[] = { -1, 0, 1, 0 };
 	static int dx[] = { 0, 1, 0, -1 };

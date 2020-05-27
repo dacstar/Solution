@@ -1,6 +1,6 @@
 package Programmers;
 
-public class Programmers_½ºÅ³Æ®¸® {
+public class Programmers_ìŠ¤í‚¬íŠ¸ë¦¬ {
 	static int arr[];
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

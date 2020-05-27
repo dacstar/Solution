@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-public class °¡ÀåÅ«¼ö {
+public class ê°€ì¥í°ìˆ˜ {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

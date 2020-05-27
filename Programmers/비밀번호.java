@@ -1,6 +1,6 @@
 package Programmers;
 
-public class ºñ¹Ð¹øÈ£ {
+public class ë¹„ë°€ë²ˆí˜¸ {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -16,7 +16,7 @@ public class ºñ¹Ð¹øÈ£ {
 			int number=p.charAt(i)-'0';
 			int answer=s.charAt(i)-'0';
 			int sum=0;
-			//Á¤¹æÇâ
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			while(true) {
 				if(number == answer) {
 					min=Math.min(min, sum);
@@ -28,7 +28,7 @@ public class ºñ¹Ð¹øÈ£ {
 			number=p.charAt(i)-'0';
 			answer=s.charAt(i)-'0';
 			sum=0;
-			//¿ª¹æÇâ
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			while(true) {
 				if(number == answer) {
 					min=Math.min(min, sum);
