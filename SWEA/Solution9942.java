@@ -7,7 +7,8 @@ import java.util.StringTokenizer;
 
 public class Solution9942 {
 	static int A[];
-	static int N,K,res;
+	static int N,K;
+	static long res;
 	static boolean checkA[], checkB[];
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
@@ -27,7 +28,7 @@ public class Solution9942 {
 			checkA = new boolean[N];
 			checkB = new boolean[N];
 			DFSA(0,new int[N]);
-			int mul=1;
+			long mul=1;
 			for(int i=N;i>=1;i--) {
 				mul*=i;
 			}
