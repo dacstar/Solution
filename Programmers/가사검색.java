@@ -10,14 +10,7 @@ public class 가사검색 {
 		// TODO Auto-generated method stub
 		String words[] = { "frodoa", "frontaa", "frostaaa", "f", "f", "ka" };
 		String queries[] = { "fro??", "????o", "fr???", "fro???", "pro?" };
-		 Arrays.sort(words,new Comparator<String>() {
 
-	         @Override
-	         public int compare(String o1, String o2) {
-	            // TODO Auto-generated method stub
-	            return o1.length() > o2.length() ? 1 : -1;
-	         }
-	      });
 		for (int i = 0; i < queries.length; i++) {
 			int len = queries[i].length();
 			int left = queries[i].indexOf("?");
